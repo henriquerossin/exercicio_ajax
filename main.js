@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     fetch('https://api.github.com/users/henriquerossin')
         .then(function (res) {
+            if (!res.ok) {
+                throw new Error(`Erro nas informações! Status: ${res.status}`);
+            }
             return res.json();
         })
         .then(function (json) {
@@ -20,4 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
             reposElement.innerText = json.public_repos;
             linkElement.href = json.html_url;
         })
+        .catch(function (error) {
+            console.error('Error fetching user data: ', error);
+            nameElement.innerHTML = 'Error loading data'
+        });
 })
